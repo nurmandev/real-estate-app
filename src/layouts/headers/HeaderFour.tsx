@@ -2,19 +2,58 @@
 import NavMenu from "./Menu/NavMenu";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import UseSticky from "@/hooks/UseSticky";
 import HeaderSearchbar from "./Menu/HeaderSearchbar";
 import LoginModal from "@/modals/LoginModal";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 
-import logo_1 from "@/assets/images/logo/logo_06.svg";
+import logo_1 from "@/assets/images/logo/logo_omnis.png";
 
 const HeaderFour = () => {
   const { sticky } = UseSticky();
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
   const [isSearch, setIsSearch] = useState<boolean>(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <header
+        className={`theme-main-menu menu-overlay menu-style-six sticky-menu ${sticky ? "fixed" : ""}`}
+      >
+        <div className="inner-content gap-two">
+          <div className="top-header position-relative">
+            <div className="d-flex align-items-center">
+              <div className="logo order-lg-0">
+                <Link href="/" className="d-flex align-items-center">
+                  <Image src={logo_1} alt="" />
+                </Link>
+              </div>
+              <div className="right-widget ms-auto me-3 me-lg-0 order-lg-3">
+                <ul className="d-flex align-items-center style-none">
+                  <li>
+                    <a className="search-btn-one rounded-circle tran3s d-flex align-items-center justify-content-center">
+                      <i className="bi bi-search"></i>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <nav className="navbar navbar-expand-lg p0 ms-lg-5 order-lg-2">
+                <div className="collapse navbar-collapse ms-xl-5">
+                  <NavMenu />
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </header>
+    );
+  }
 
   return (
     <>

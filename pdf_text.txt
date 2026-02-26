@@ -1,0 +1,95 @@
+Website Development Requirements
+Omnis Properties LLC
+Purpose: This document outlines the functional and structural requirements for developing the official
+website of Omnis Properties LLC. It is intended to be used for quotation and scope definition.
+1. Business & Project Overview
+Company Name: Omnis Properties LLC
+Primary Objective: Lead generation, property listing, brand establishment, and investor-focused information
+platform.
+Target Audience: End users, investors, NRIs, and international investors.
+Primary Market: Dubai / UAE with focus on international investors.
+Brand Guidelines: Will be provided separately by the client.
+2. Platform & Hosting
+Hosting: Existing GoDaddy cPanel hosting (already active).
+CMS: WordPress (designer to build on existing hosting).
+Page Builder: Elementor (designer’s choice, preferred).
+Device Compatibility: Fully responsive for desktop and mobile.
+3. Website Pages & Structure
+The following pages are required. Not all pages need to appear in the main navigation menu; some may be
+placed in footer or secondary sections.
+•     Home
+•     About Us
+•     Properties (Main Page)
+•     Off-Plan Properties
+•     Secondary / Resale Properties
+•     Rentals
+•     Property Details Page
+•     Blog
+•     Contact Us
+•     KYC / Client Onboarding (Hidden Page)
+•     Privacy Policy (Footer)
+•     Terms & Conditions (Footer)
+4. Property Listing Module
+Property Categories: Off-Plan, Secondary / Resale, Rentals.
+Property Types: Apartments, Villas, Townhouses, Plots, Commercial (future-ready).
+Admin Upload: Manual upload by Super Admin only.
+Property Detail Fields (Basic Structure):
+----------------Page (0) Break----------------
+•     Property title
+•     Price (AED)
+•     Area (sq.ft.)
+•     Number of bedrooms & bathrooms
+•     Property type
+•     Location & Google Map integration
+•     Project completion status (Off-plan / Ready)
+•     Developer name (if applicable)
+•     Image gallery
+•     Floor plan upload (PDF/Image)
+•     Enquiry / Contact CTA
+5. Search & Filters
+Search and filter functionality to be available within the Properties section only.
+•     Search by keyword
+•     Location
+•     Price range
+•     Property type
+•     Bedrooms
+•     Off-Plan / Secondary / Rental
+6. Lead Generation & Contact Forms
+Forms: General contact form and property enquiry forms.
+Form Fields: Name, email, phone number (with country code), message, budget (optional).
+Notifications: Email notification to admin and visibility in admin dashboard.
+WhatsApp: Floating WhatsApp click-to-chat button required.
+7. KYC / Client Onboarding Module
+Access: Completely hidden page, accessible only via direct link shared with clients.
+Form Type: Simple or multi-step (designer to decide based on UX).
+•     Full name
+•     Email address
+•     Phone number with country code
+•     Nationality
+•     Residential address
+•     Passport upload
+•     Emirates ID upload
+•     Supporting documents (PDF/Image)
+----------------Page (1) Break----------------
+KYC Submission Handling:
+• Data stored securely in admin panel
+• Automatic email to admin
+• Client receives email confirmation
+• Downloadable PDF generated per submission
+8. Blog Module
+Blog section required mainly for SEO and informational purposes.
+Content focus: Dubai real estate news, investor insights, market updates, informational articles.
+9. Admin Panel & Roles
+User Roles: Super Admin only.
+Admin Capabilities:
+• Manage property listings
+• View and manage leads
+• View and download KYC submissions
+• Content and blog management
+• Future scalability supported
+10. SEO & Performance
+SEO: SEO-friendly URLs required.
+Performance: Optimized for speed and mobile responsiveness.
+Language: English only.
+Currency: AED only.
+----------------Page (2) Break----------------

@@ -145,7 +145,7 @@ const FooterTwo = () => {
               </li>
             </ul>
             <p className="mb-15 text-center text-lg-start order-md-first">
-              Copyright @2025 OMNIS.
+              Copyright @2026 OMNIS.
             </p>
           </div>
         </div>

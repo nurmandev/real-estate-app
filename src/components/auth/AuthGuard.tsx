@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, ReactNode } from "react";
+import { useEffect, useState, ReactNode } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { RootState } from "@/redux/store";
@@ -13,16 +13,26 @@ interface Props {
  * Redirects to home (where the login modal can be opened) if not authenticated.
  */
 const AuthGuard = ({ children }: Props) => {
+  const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated,
   );
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (isMounted && !isAuthenticated) {
       router.replace("/");
     }
-  }, [isAuthenticated, router]);
+  }, [isMounted, isAuthenticated, router]);
+
+  if (!isMounted) {
+    // Return null during server-side hydration to match initial HTML
+    return null;
+  }
 
   if (!isAuthenticated) {
     return (

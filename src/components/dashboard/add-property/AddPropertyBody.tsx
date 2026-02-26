@@ -34,6 +34,8 @@ const AddPropertyBody = () => {
   });
 
   const [files, setFiles] = useState<File[]>([]);
+  const [videoFile, setVideoFile] = useState<File | null>(null);
+  const [floorPlanFiles, setFloorPlanFiles] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
 
   // Adapting AddressAndLocation to use the same formData object by passing individual setters
@@ -54,8 +56,27 @@ const AddPropertyBody = () => {
     }
   };
 
+  const handleVideoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setVideoFile(e.target.files[0]);
+    }
+  };
+
+  const handleFloorPlanChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const selectedFiles = Array.from(e.target.files);
+      setFloorPlanFiles((prev) => [...prev, ...selectedFiles]);
+    }
+  };
+
   const removeFile = (indexToRemove: number) => {
     setFiles((prev) => prev.filter((_, index) => index !== indexToRemove));
+  };
+
+  const removeFloorPlan = (indexToRemove: number) => {
+    setFloorPlanFiles((prev) =>
+      prev.filter((_, index) => index !== indexToRemove),
+    );
   };
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -67,11 +88,14 @@ const AddPropertyBody = () => {
       data.append("title", formData.title);
       data.append("description", formData.description);
       data.append("price", String(formData.price));
+      const locationParts = [
+        formData.address,
+        formData.city,
+        formData.country,
+      ].filter(Boolean);
       data.append(
         "location",
-        formData.address
-          ? `${formData.address}, ${formData.city}, ${formData.country}`
-          : "Not specified",
+        locationParts.length > 0 ? locationParts.join(", ") : "Not specified",
       );
       data.append("propertyType", formData.propertyType);
       data.append("status", "pending");
@@ -97,6 +121,14 @@ const AddPropertyBody = () => {
 
       files.forEach((file) => {
         data.append("images", file);
+      });
+
+      if (videoFile) {
+        data.append("video", videoFile);
+      }
+
+      floorPlanFiles.forEach((file) => {
+        data.append("floorPlans", file);
       });
 
       await api.post("/api/dashboard/properties", data, {
@@ -128,41 +160,92 @@ const AddPropertyBody = () => {
         <ListingDetails formData={formData} setFormData={setFormData} />
 
         <div className="bg-white card-box border-20 mt-40">
-          <h4 className="dash-title-three">Photo & Video Attachment</h4>
-          <div className="dash-input-wrapper mb-20">
-            <label htmlFor="">File Attachment *</label>
+          <h4 className="dash-title-three">Media Attachment</h4>
 
-            {files.map((file, index) => (
-              <div
-                key={index}
-                className="attached-file d-flex align-items-center justify-content-between mb-15"
-              >
-                <span>{file.name}</span>
+          <div className="dash-input-wrapper mb-20">
+            <label htmlFor="">Photo Attachment *</label>
+            <div className="attached-files-list mb-15">
+              {files.map((file, index) => (
+                <div
+                  key={index}
+                  className="attached-file d-flex align-items-center justify-content-between mb-2"
+                >
+                  <span>{file.name}</span>
+                  <button
+                    type="button"
+                    onClick={() => removeFile(index)}
+                    className="remove-btn"
+                  >
+                    <i className="bi bi-x"></i>
+                  </button>
+                </div>
+              ))}
+            </div>
+            <div className="dash-btn-one d-inline-block position-relative me-3">
+              <i className="bi bi-plus"></i> Upload Photos
+              <input
+                type="file"
+                multiple
+                accept="image/*"
+                onChange={handleFileChange}
+              />
+            </div>
+          </div>
+
+          <div className="dash-input-wrapper mb-20">
+            <label htmlFor="">Video Attachment</label>
+            {videoFile && (
+              <div className="attached-file d-flex align-items-center justify-content-between mb-2">
+                <span>{videoFile.name}</span>
                 <button
                   type="button"
-                  onClick={() => removeFile(index)}
+                  onClick={() => setVideoFile(null)}
                   className="remove-btn"
-                  style={{ background: "none", border: "none" }}
                 >
                   <i className="bi bi-x"></i>
                 </button>
               </div>
-            ))}
+            )}
+            <div className="dash-btn-one d-inline-block position-relative me-3">
+              <i className="bi bi-plus"></i> Upload Video
+              <input
+                type="file"
+                accept="video/mp4,video/x-m4v,video/*"
+                onChange={handleVideoChange}
+              />
+            </div>
           </div>
-          <div className="dash-btn-one d-inline-block position-relative me-3">
-            <i className="bi bi-plus"></i>
-            Upload File
-            <input
-              type="file"
-              id="uploadCV"
-              name="uploadCV"
-              placeholder=""
-              multiple
-              accept=".jpg,.jpeg,.png,.webp,.mp4"
-              onChange={handleFileChange}
-            />
+
+          <div className="dash-input-wrapper mb-20">
+            <label htmlFor="">Floor Plans</label>
+            <div className="attached-files-list mb-15">
+              {floorPlanFiles.map((file, index) => (
+                <div
+                  key={index}
+                  className="attached-file d-flex align-items-center justify-content-between mb-2"
+                >
+                  <span>{file.name}</span>
+                  <button
+                    type="button"
+                    onClick={() => removeFloorPlan(index)}
+                    className="remove-btn"
+                  >
+                    <i className="bi bi-x"></i>
+                  </button>
+                </div>
+              ))}
+            </div>
+            <div className="dash-btn-one d-inline-block position-relative me-3">
+              <i className="bi bi-plus"></i> Upload Floor Plan
+              <input
+                type="file"
+                multiple
+                accept="image/*"
+                onChange={handleFloorPlanChange}
+              />
+            </div>
           </div>
-          <small>Upload file .jpg, .png, .mp4, .webp</small>
+          <small>Upload images (.jpg, .png, .webp) and video (.mp4)</small>
         </div>
 
         <SelectAmenities formData={formData} setFormData={setFormData} />

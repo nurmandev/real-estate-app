@@ -76,7 +76,7 @@ const FooterFour = () => {
           </div>
         </div>
         <div className="bottom-footer">
-          <p className="m0 text-center fs-16">Copyright @2025 OMNIS.</p>
+          <p className="m0 text-center fs-16">Copyright @2026 OMNIS.</p>
         </div>
       </div>
       <Image src={footerShape} alt="" className="lazy-img shapes shape_01" />

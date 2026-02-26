@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import footerLogo from "@/assets/images/logo/logo_07.svg";
+import footerLogo from "@/assets/images/logo/logo_omnis.png";
 import footer_data from "@/data/home-data/FooterData";
 
 const FooterFive = () => {
@@ -123,7 +123,7 @@ const FooterFive = () => {
           </div>
         </div>
         <div className="bottom-footer">
-          <p className="m0 text-center fs-16">Copyright @2025 OMNIS.</p>
+          <p className="m0 text-center fs-16">Copyright @2026 OMNIS.</p>
         </div>
       </div>
     </div>

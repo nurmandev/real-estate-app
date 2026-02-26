@@ -32,6 +32,8 @@ export interface IProperty extends Document {
   state?: string;
   zipCode?: string;
   country?: string;
+  videoUrl?: string;
+  floorPlans?: string[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -61,6 +63,8 @@ const PropertySchema = new Schema<IProperty>(
     views: { type: Number, default: 0 },
     favouritedBy: [{ type: Schema.Types.ObjectId, ref: "User" }],
     images: [{ type: String }],
+    videoUrl: { type: String },
+    floorPlans: [{ type: String }],
     bedrooms: { type: Number },
     bathrooms: { type: Number },
     area: { type: Number },

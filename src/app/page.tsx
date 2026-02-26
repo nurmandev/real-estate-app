@@ -1,12 +1,12 @@
 import Wrapper from "@/layouts/Wrapper";
-import HomeTwo from "@/components/homes/home-two";
+import HomeSix from "@/components/homes/home-six";
 export const metadata = {
-  title: "Omnis Properties LLC",
+  title: "OMNIS Properties LLC | Dubai Real Estate & Investment Experts",
 };
 const index = () => {
   return (
     <Wrapper>
-      <HomeTwo />
+      <HomeSix />
     </Wrapper>
   );
 };

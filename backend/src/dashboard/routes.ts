@@ -25,7 +25,11 @@ import { upload } from "../middlewares/upload.middleware";
 // POST /api/dashboard/properties — create a new property
 router.post(
   "/properties",
-  upload.array("images", 10),
+  upload.fields([
+    { name: "images", maxCount: 10 },
+    { name: "video", maxCount: 1 },
+    { name: "floorPlans", maxCount: 5 },
+  ]),
   PropertyController.createProperty,
 );
 

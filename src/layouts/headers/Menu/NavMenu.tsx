@@ -3,13 +3,22 @@ import menu_data from "@/data/home-data/MenuData";
 import Link from "next/link.js";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import logo from "@/assets/images/logo/logo_01.svg";
 
 const NavMenu = () => {
   const pathname = usePathname();
   const [navTitle, setNavTitle] = useState("");
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
 
   const openMobileMenu = (menu: any) => {
     if (navTitle === menu) {
@@ -32,17 +41,17 @@ const NavMenu = () => {
       {menu_data.map((menu: any) => (
         <li
           key={menu.id}
-          className={`nav-item dropdown ${menu.class_name} ${menu.title === "Home" ? "no-dropdown" : ""}`}
+          className={`nav-item ${menu.has_dropdown ? "dropdown" : ""} ${menu.class_name}`}
         >
           <Link
             href={menu.link}
-            className={`nav-link ${menu.has_dropdown && menu.title !== "Home" ? "dropdown-toggle" : ""} 
+            className={`nav-link ${menu.has_dropdown ? "dropdown-toggle" : ""} 
                         ${pathname === menu.link ? "active" : ""} ${navTitle === menu.title ? "show" : ""}`}
-            onClick={() => menu.title !== "Home" && openMobileMenu(menu.title)}
+            onClick={() => menu.has_dropdown && openMobileMenu(menu.title)}
           >
             {menu.title}
           </Link>
-          {menu.has_dropdown && menu.title !== "Home" && (
+          {menu.has_dropdown && (
             <ul
               className={`dropdown-menu ${navTitle === menu.title ? "show" : ""}`}
             >

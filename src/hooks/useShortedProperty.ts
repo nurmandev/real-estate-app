@@ -1,215 +1,261 @@
-import UseProperty from "@/hooks/UseProperty";
+"use client";
 import { ChangeEvent, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { selectProperties } from "@/redux/features/propertySlice";
-import listing_data from "@/data/inner-data/ListingData";
+import { api } from "@/utils/api";
+import { useSearchParams } from "next/navigation";
 
 interface DataType {
-   itemsPerPage: number;
-   page: string;
+  itemsPerPage: number;
+  page: string;
 }
 
 const UseShortedProperty = ({ itemsPerPage, page }: DataType) => {
+  const searchParams = useSearchParams();
+  const [all_property, setAllProperty] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-   let all_property = listing_data;
-
-   const { properties, setProperties } = UseProperty();
-   const filteredProperties = properties.filter((item) => item.page === page);
-
-   const [itemOffset, setItemOffset] = useState(0);
-   const [sortOption, setSortOption] = useState<string>("");
-   const [status, setStatus] = useState<string | null>(null);
-   const [location, setLocation] = useState<string | null>(null);
-   const [selectedBedrooms, setSelectedBedrooms] = useState<string | null>(null);
-   const [selectedBathrooms, setSelectedBathrooms] = useState<string | null>(null);
-   const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
-
-   // handleSortOptionChange
-   const handleTypeChange = (event: ChangeEvent<HTMLSelectElement>) => {
-      setSortOption(event.target.value);
-      setItemOffset(0);
-   };
-
-   // handleStatusChange
-   const handleStatusChange = (event: ChangeEvent<HTMLSelectElement>) => {
-      setStatus(event.target.value);
-      setItemOffset(0);
-   };
-
-   // handleLocationChange
-   const handleLocationChange = (event: ChangeEvent<HTMLSelectElement>) => {
-      setLocation(event.target.value);
-      setItemOffset(0);
-   };
-
-   // handleBedroomChange
-   const handleBedroomChange = (event: ChangeEvent<HTMLSelectElement>) => {
-      setSelectedBedrooms(event.target.value);
-      setItemOffset(0);
-   };
-
-   // handleBathroomChange
-   const handleBathroomChange = (event: ChangeEvent<HTMLSelectElement>) => {
-      setSelectedBathrooms(event.target.value);
-      setItemOffset(0);
-   };
-
-   // handleAmenityChange
-   const handleAmenityChange = (event: ChangeEvent<HTMLInputElement>) => {
-      const amenity = event.target.value;
-
-      setSelectedAmenities((prevSelectedAmenities) => {
-         if (prevSelectedAmenities.includes(amenity)) {
-            return prevSelectedAmenities.filter((a) => a !== amenity);
-         } else {
-            return [...prevSelectedAmenities, amenity];
-         }
-      });
-   };
-
-   useEffect(() => {
-      // This block will be executed after selectedAmenities has been updated.
-      setItemOffset(0);
-   }, [selectedAmenities]);
-
-   const getSortedProperties = () => {
-      let filtered = filteredProperties;
-
-      // Status filtering
-      if (status !== null) {
-         filtered = filtered.filter((item) => {
-            return item.status.toLowerCase().includes(status.toLowerCase());
-         });
+  // Fetch from database
+  useEffect(() => {
+    const fetchDbProperties = async () => {
+      try {
+        setLoading(true);
+        const { data } = await api.get("/api/public/properties");
+        if (data && Array.isArray(data.properties)) {
+          const dbProps = data.properties.map((p: any) => ({
+            ...p,
+            page: page,
+          }));
+          setAllProperty(dbProps);
+        }
+      } catch (error) {
+        console.error("Error fetching db properties:", error);
+      } finally {
+        setLoading(false);
       }
+    };
+    fetchDbProperties();
+  }, [page]);
 
-      // Location filtering
-      if (location !== null) {
-         filtered = filtered.filter((item) => {
-            return item.location.toLowerCase().includes(location.toLowerCase());
-         });
-      }
+  const [itemOffset, setItemOffset] = useState(0);
+  const [sortOption, setSortOption] = useState<string>("");
+  const [status, setStatus] = useState<string | null>(
+    searchParams.get("status"),
+  );
+  const [location, setLocation] = useState<string | null>(
+    searchParams.get("location"),
+  );
+  const [propertyType, setPropertyType] = useState<string | null>(
+    searchParams.get("type"),
+  );
+  const [selectedBedrooms, setSelectedBedrooms] = useState<string | null>(null);
+  const [selectedBathrooms, setSelectedBathrooms] = useState<string | null>(
+    null,
+  );
+  const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>(
+    searchParams.get("search") || "",
+  );
 
-      // Bedrooms filtering
-      if (selectedBedrooms !== null) {
-         filtered = filtered.filter((item) => {
-            return item.property_info.bed.toLowerCase().includes(selectedBedrooms.toLowerCase());
-         });
-      }
+  const handleTypeChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setSortOption(event.target.value);
+    setItemOffset(0);
+  };
 
-      // Bathrooms filtering
-      if (selectedBathrooms !== null) {
-         filtered = filtered.filter((item) => {
-            return item.property_info.bath.toLowerCase().includes(selectedBathrooms.toLowerCase());
-         });
-      }
+  const handleStatusChange = (event: ChangeEvent<HTMLSelectElement> | any) => {
+    const val = event.target ? event.target.value : event;
+    // Map "Buy"/"Sell" -> "active", "Rent" -> "rented"
+    let mappedStatus = val;
+    if (val.toLowerCase() === "buy" || val.toLowerCase() === "sell")
+      mappedStatus = "active";
+    if (val.toLowerCase() === "rent") mappedStatus = "rented";
 
-      // Amenities filtering
-      if (selectedAmenities.length > 0) {
-         filtered = filtered.filter((item) => {
-            const propertyAmenities = item.amenities || [];
-            return selectedAmenities.every((amenity) => propertyAmenities.includes(amenity));
-         });
-      }
+    setStatus(mappedStatus);
+    setItemOffset(0);
+  };
 
-      // Type filtering
-      switch (sortOption) {
-         case "newest":
-            return filtered.filter((item) => item.type === "newest");
-         case "best_seller":
-            return filtered.filter((item) => item.type === "Best Seller");
-         case "best_match":
-            return filtered.filter((item) => item.type === "Best Match");
-         case "price_low":
-            return filtered.sort((a, b) => a.price - b.price);
-         case "price_high":
-            return filtered.sort((a, b) => b.price - a.price);
-         default:
-            return filtered;
-      }
-   };
+  const handlePropertyTypeChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setPropertyType(event.target.value);
+    setItemOffset(0);
+  };
 
-   const sortedProperties = getSortedProperties();
-   const endOffset = itemOffset + itemsPerPage;
-   const currentItems = sortedProperties.slice(itemOffset, endOffset);
-   const pageCount = Math.ceil(sortedProperties.length / itemsPerPage);
+  const handleLocationChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setLocation(event.target.value);
+    setItemOffset(0);
+  };
 
-   const handlePageClick = (event: any) => {
-      const newOffset = event.selected * itemsPerPage;
-      setItemOffset(newOffset);
-   };
+  const handleBedroomChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedBedrooms(event.target.value);
+    setItemOffset(0);
+  };
 
-   // All products
-   const allProperties = useSelector(selectProperties);
-   const filteredAllProduct = allProperties.filter(item => item.page === "listing_1");
+  const handleBathroomChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedBathrooms(event.target.value);
+    setItemOffset(0);
+  };
 
-   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-      const searchingProducts = filteredAllProduct.filter((p) =>
-         p.title.toLowerCase().includes(e.target.value.toLowerCase())
+  const handleAmenityChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const amenity = event.target.value;
+    setSelectedAmenities((prev) =>
+      prev.includes(amenity)
+        ? prev.filter((a) => a !== amenity)
+        : [...prev, amenity],
+    );
+  };
+
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+    setItemOffset(0);
+  };
+
+  useEffect(() => {
+    setItemOffset(0);
+  }, [selectedAmenities]);
+
+  const maxPrice =
+    all_property.reduce(
+      (max: number, item: any) => (item.price > max ? item.price : max),
+      0,
+    ) || 1000000;
+  const [priceValue, setPriceValue] = useState([0, maxPrice]);
+
+  useEffect(() => {
+    setPriceValue([0, maxPrice]);
+  }, [maxPrice]);
+
+  const getSortedProperties = () => {
+    let filtered = all_property.filter(
+      (j: any) =>
+        j.page === page && j.price >= priceValue[0] && j.price <= priceValue[1],
+    );
+
+    if (searchQuery) {
+      filtered = filtered.filter(
+        (item) =>
+          item.title &&
+          item.title.toLowerCase().includes(searchQuery.toLowerCase()),
       );
-      setProperties(searchingProducts);
-   };
+    }
 
-   // handle Price
-   const maxPrice = all_property.filter(item => item.page === page).reduce((max, item) => {
-      return item.price > max ? item.price : max;
-   }, 0);
-   const [priceValue, setPriceValue] = useState([0, maxPrice]);
+    if (status) {
+      filtered = filtered.filter(
+        (item) =>
+          item.status && item.status.toLowerCase() === status.toLowerCase(),
+      );
+    }
 
-   useEffect(() => {
-      let filterPrice = all_property.filter((j) => j.price >= priceValue[0] && j.price <= priceValue[1]);
-      setProperties(filterPrice)
-   }, [priceValue, all_property, setProperties]);
+    if (propertyType) {
+      filtered = filtered.filter(
+        (item) =>
+          item.type && item.type.toLowerCase() === propertyType.toLowerCase(),
+      );
+    }
 
-   const handlePriceChange = (val: number[]) => {
-      setPriceValue(val)
-   }
+    if (location) {
+      filtered = filtered.filter(
+        (item) =>
+          item.location &&
+          item.location.toLowerCase().includes(location.toLowerCase()),
+      );
+    }
 
+    if (selectedBedrooms) {
+      filtered = filtered.filter(
+        (item) => item.property_info?.bed == selectedBedrooms,
+      );
+    }
 
-   const priceRanges: {
-      [key: string]: number[];
-   } = {
+    if (selectedBathrooms) {
+      filtered = filtered.filter(
+        (item) => item.property_info?.bath == selectedBathrooms,
+      );
+    }
+
+    if (selectedAmenities.length > 0) {
+      filtered = filtered.filter((item) =>
+        selectedAmenities.every((a) => (item.amenities || []).includes(a)),
+      );
+    }
+
+    switch (sortOption) {
+      case "price_low":
+        return filtered.sort((a, b) => a.price - b.price);
+      case "price_high":
+        return filtered.sort((a, b) => b.price - a.price);
+      default:
+        return filtered;
+    }
+  };
+
+  const sortedProperties = getSortedProperties();
+  const currentItems = sortedProperties.slice(
+    itemOffset,
+    itemOffset + itemsPerPage,
+  );
+  const pageCount = Math.ceil(sortedProperties.length / itemsPerPage);
+
+  const handlePageClick = (event: any) =>
+    setItemOffset(event.selected * itemsPerPage);
+  const handlePriceChange = (val: number[]) => setPriceValue(val);
+
+  const handlePriceDropChange = (selectedValue: string) => {
+    const ranges: any = {
       "1": [10000, 200000],
       "2": [20000, 300000],
       "3": [30000, 400000],
-   };
+    };
+    setPriceValue(ranges[selectedValue] || [0, maxPrice]);
+  };
 
-   const handlePriceDropChange = (selectedValue: string) => {
-      const selectedRange = priceRanges[selectedValue];
-      const newPriceValue = selectedRange ? selectedRange : [0, maxPrice];
-      setPriceValue(newPriceValue);
-   };
+  const resetFilters = () => {
+    setSortOption("");
+    setItemOffset(0);
+    setStatus(null);
+    setLocation(null);
+    setPropertyType(null);
+    setSelectedBedrooms(null);
+    setSelectedBathrooms(null);
+    setSelectedAmenities([]);
+    setSearchQuery("");
+    setPriceValue([0, maxPrice]);
+  };
 
-   const resetFilters = () => {
-      setSortOption("");
-      setItemOffset(0);
-      setStatus(null);
-      setLocation(null);
-      setSelectedBedrooms(null);
-      setSelectedBathrooms(null);
-      setSelectedAmenities([]);
-      setPriceValue([0, maxPrice]);
-   };
+  const locations = Array.from(
+    new Set([
+      ...all_property.map((p) => p.city).filter(Boolean),
+      ...all_property.map((p) => p.location).filter(Boolean),
+    ]),
+  );
+  const propertyTypes = Array.from(
+    new Set(all_property.map((p) => p.type).filter(Boolean)),
+  );
+  const statuses = Array.from(
+    new Set(all_property.map((p) => p.status).filter(Boolean)),
+  );
 
-   return {
-      handlePriceDropChange,
-      itemOffset,
-      sortedProperties,
-      currentItems,
-      handlePageClick,
-      handleSearchChange,
-      handleBedroomChange,
-      handleLocationChange,
-      handleTypeChange,
-      handleStatusChange,
-      handleBathroomChange,
-      handlePriceChange,
-      maxPrice,
-      priceValue,
-      resetFilters,
-      selectedAmenities,
-      handleAmenityChange,
-      pageCount,
-   };
+  return {
+    handlePriceDropChange,
+    itemOffset,
+    sortedProperties,
+    currentItems,
+    pageCount,
+    handlePageClick,
+    handleSearchChange,
+    handleBedroomChange,
+    handleLocationChange,
+    handleTypeChange,
+    handleStatusChange,
+    handlePropertyTypeChange,
+    handleBathroomChange,
+    handlePriceChange,
+    maxPrice,
+    priceValue,
+    resetFilters,
+    selectedAmenities,
+    handleAmenityChange,
+    loading,
+    locations,
+    propertyTypes,
+    statuses,
+  };
 };
 
 export default UseShortedProperty;

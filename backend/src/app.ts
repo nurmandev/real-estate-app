@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import authRoutes from "./auth/routes";
 import dashboardRoutes from "./dashboard/routes";
+import publicRoutes from "./public/routes";
 import { connectDB } from "./config/db";
 
 dotenv.config();
@@ -31,6 +32,7 @@ app.use(cookieParser());
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/public", publicRoutes);
 
 // Health Check
 app.get("/health", (req: Request, res: Response) => {

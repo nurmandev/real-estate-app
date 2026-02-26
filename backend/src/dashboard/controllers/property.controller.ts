@@ -34,9 +34,15 @@ export class PropertyController {
         country,
       } = req.body;
 
-      // Extract uploaded images
-      const files = req.files as Express.Multer.File[];
-      const uploadedImages = files ? files.map((file) => file.path) : [];
+      // Extract uploaded files
+      const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+      const uploadedImages = files["images"]
+        ? files["images"].map((file) => file.path)
+        : [];
+      const uploadedVideo = files["video"] ? files["video"][0].path : undefined;
+      const uploadedFloorPlans = files["floorPlans"]
+        ? files["floorPlans"].map((file) => file.path)
+        : [];
 
       if (!title || !description || !price || !location) {
         return res.status(400).json({
@@ -44,26 +50,38 @@ export class PropertyController {
         });
       }
 
+      // Helper to safely parse numbers and handle strings like "3,210 sqft"
+      const parseNum = (val: any) => {
+        if (val === undefined || val === null || val === "") return undefined;
+        if (typeof val === "number") return val;
+        // Strip everything except digits and decimal point
+        const sanitized = String(val).replace(/[^0-9.]/g, "");
+        const num = parseFloat(sanitized);
+        return isNaN(num) ? undefined : num;
+      };
+
       const newProperty = new Property({
         ownerId: userId,
         title,
         description,
-        price: Number(price),
+        price: parseNum(price) || 0,
         location,
         propertyType: propertyType || "apartment",
         status: status || "pending",
         images: uploadedImages,
-        bedrooms: bedrooms ? Number(bedrooms) : undefined,
-        bathrooms: bathrooms ? Number(bathrooms) : undefined,
-        area: area ? Number(area) : undefined,
+        videoUrl: uploadedVideo,
+        floorPlans: uploadedFloorPlans,
+        bedrooms: parseNum(bedrooms),
+        bathrooms: parseNum(bathrooms),
+        area: parseNum(area),
         amenities: amenities || [],
-        yearBuilt: yearBuilt ? Number(yearBuilt) : undefined,
-        kitchens: kitchens ? Number(kitchens) : undefined,
-        garages: garages ? Number(garages) : undefined,
-        garageSize: garageSize ? Number(garageSize) : undefined,
-        floorsNo: floorsNo ? Number(floorsNo) : undefined,
+        yearBuilt: parseNum(yearBuilt),
+        kitchens: parseNum(kitchens),
+        garages: parseNum(garages),
+        garageSize: parseNum(garageSize),
+        floorsNo: parseNum(floorsNo),
         listedIn,
-        yearlyTaxRate: yearlyTaxRate ? Number(yearlyTaxRate) : undefined,
+        yearlyTaxRate: parseNum(yearlyTaxRate),
         city,
         state,
         zipCode,
