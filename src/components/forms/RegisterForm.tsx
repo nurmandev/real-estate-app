@@ -8,6 +8,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Image from "next/image";
 import { api } from "@/utils/api";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/redux/store";
+import { setTokens } from "@/redux/features/authSlice";
 
 import OpenEye from "@/assets/images/icon/icon_68.svg";
 
@@ -20,6 +23,7 @@ interface FormData {
 
 const RegisterForm = () => {
   const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
 
   const schema = yup
     .object({
@@ -72,12 +76,31 @@ const RegisterForm = () => {
       });
 
       if (response.status === 201) {
-        toast.success(
-          response.data.message ||
-            "Registration successful! Please check your email to verify your account.",
-          { position: "top-center" },
-        );
+        toast.success(response.data.message || "Registration successful!", {
+          position: "top-center",
+        });
+
+        // Auto-login
+        if (response.data.accessToken && response.data.refreshToken) {
+          dispatch(
+            setTokens({
+              accessToken: response.data.accessToken,
+              refreshToken: response.data.refreshToken,
+            }),
+          );
+        }
+
+        // Clean up Bootstrap modal if present
+        if (typeof window !== "undefined") {
+          document.body.classList.remove("modal-open");
+          const backdrop = document.querySelector(".modal-backdrop");
+          if (backdrop) backdrop.remove();
+          document.body.style.overflow = "";
+          document.body.style.paddingRight = "";
+        }
+
         reset();
+        router.push("/dashboard/dashboard-index");
       }
     } catch (error: any) {
       const errorMessage =

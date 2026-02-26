@@ -21,16 +21,6 @@ export class AuthController {
       const user = new User({ name, email, password });
       await user.save();
 
-      const verificationToken = crypto.randomBytes(32).toString("hex");
-      // Fire-and-forget: email failure must NOT kill the registration response
-      sendEmail(
-        email,
-        "Verify your email",
-        emailTemplates.verification(verificationToken),
-      ).catch((err) =>
-        console.error("[Email] Verification email failed:", err.message),
-      );
-
       await AuthService.logSecurityEvent(
         user.id,
         "REGISTER",
@@ -38,9 +28,33 @@ export class AuthController {
         "success",
       );
 
-      res
-        .status(201)
-        .json({ message: "User registered. Please verify your email." });
+      // Auto-generate tokens for immediate login after registration (since verification is disabled)
+      const sessionId = JwtService.generateSessionId();
+      const accessToken = JwtService.generateAccessToken({
+        userId: user.id,
+        sessionId,
+      });
+      const refreshToken = JwtService.generateRefreshToken({
+        userId: user.id,
+        sessionId,
+      });
+
+      // Save session
+      user.sessions.push({
+        sessionId,
+        refreshTokenHash: JwtService.hashToken(refreshToken),
+        device: deviceInfo.deviceName,
+        ip: deviceInfo.ip,
+        userAgent: deviceInfo.userAgent,
+        lastActive: new Date(),
+      });
+      await user.save();
+
+      res.status(201).json({
+        message: "User registered successfully! Redirecting...",
+        accessToken,
+        refreshToken,
+      });
     } catch (error: any) {
       res.status(500).json({ message: error.message });
     }

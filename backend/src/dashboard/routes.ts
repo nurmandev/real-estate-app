@@ -19,4 +19,14 @@ router.get("/recent-messages", DashboardController.getRecentMessages);
 // GET /api/dashboard/properties   — paginated property list
 router.get("/properties", DashboardController.getProperties);
 
+import { PropertyController } from "./controllers/property.controller";
+import { upload } from "../middlewares/upload.middleware";
+
+// POST /api/dashboard/properties — create a new property
+router.post(
+  "/properties",
+  upload.array("images", 10),
+  PropertyController.createProperty,
+);
+
 export default router;

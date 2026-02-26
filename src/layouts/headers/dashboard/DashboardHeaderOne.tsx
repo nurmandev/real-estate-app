@@ -113,38 +113,6 @@ const DashboardHeaderOne = ({ isActive, setIsActive }: any) => {
                 <span>Profile</span>
               </Link>
             </li>
-            <li className="plr">
-              <Link
-                href="/dashboard/account-settings"
-                className={`d-flex w-100 align-items-center ${pathname === "/dashboard/account-settings" ? "active" : ""}`}
-              >
-                <Image
-                  src={
-                    pathname === "/dashboard/account-settings"
-                      ? dashboardIconActive_4
-                      : dashboardIcon_4
-                  }
-                  alt=""
-                />
-                <span>Account Settings</span>
-              </Link>
-            </li>
-            <li className="plr">
-              <Link
-                href="/dashboard/membership"
-                className={`d-flex w-100 align-items-center ${pathname === "/dashboard/membership" ? "active" : ""}`}
-              >
-                <Image
-                  src={
-                    pathname === "/dashboard/membership"
-                      ? dashboardIconActive_5
-                      : dashboardIcon_5
-                  }
-                  alt=""
-                />
-                <span>Membership</span>
-              </Link>
-            </li>
             <li className="bottom-line pt-30 lg-pt-20 mb-40 lg-mb-30"></li>
             <li>
               <div className="nav-title">Listing</div>

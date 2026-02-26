@@ -61,7 +61,9 @@ const LoginForm = () => {
     reset,
     formState: { errors },
   } = useForm<FormData>({
-    resolver: yupResolver(mfaStep ? mfaSchema : loginSchema),
+    resolver: (mfaStep
+      ? yupResolver(mfaSchema)
+      : yupResolver(loginSchema)) as any,
   });
 
   const togglePasswordVisibility = () => setPasswordVisibility((v) => !v);
@@ -94,6 +96,16 @@ const LoginForm = () => {
       );
       toast.success("Logged in successfully!", { position: "top-center" });
       reset();
+
+      // Clean up Bootstrap modal if present
+      if (typeof window !== "undefined") {
+        document.body.classList.remove("modal-open");
+        const backdrop = document.querySelector(".modal-backdrop");
+        if (backdrop) backdrop.remove();
+        document.body.style.overflow = "";
+        document.body.style.paddingRight = "";
+      }
+
       router.push("/dashboard/dashboard-index");
     } catch (err: any) {
       const msg = err?.response?.data?.message || "Invalid email or password.";
@@ -121,6 +133,16 @@ const LoginForm = () => {
       );
       toast.success("Logged in successfully!", { position: "top-center" });
       reset();
+
+      // Clean up Bootstrap modal if present
+      if (typeof window !== "undefined") {
+        document.body.classList.remove("modal-open");
+        const backdrop = document.querySelector(".modal-backdrop");
+        if (backdrop) backdrop.remove();
+        document.body.style.overflow = "";
+        document.body.style.paddingRight = "";
+      }
+
       router.push("/dashboard/dashboard-index");
     } catch (err: any) {
       const msg = err?.response?.data?.message || "Invalid MFA code.";

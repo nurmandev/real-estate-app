@@ -6,7 +6,13 @@ export interface IProperty extends Document {
   description: string;
   price: number;
   location: string;
-  propertyType: "apartment" | "house" | "villa" | "land" | "commercial";
+  propertyType:
+    | "apartment"
+    | "condo"
+    | "house"
+    | "villa"
+    | "land"
+    | "commercial";
   status: "active" | "pending" | "sold" | "rented";
   views: number;
   favouritedBy: mongoose.Types.ObjectId[];
@@ -14,6 +20,18 @@ export interface IProperty extends Document {
   bedrooms?: number;
   bathrooms?: number;
   area?: number;
+  amenities?: string[];
+  yearBuilt?: number;
+  kitchens?: number;
+  garages?: number;
+  garageSize?: number;
+  floorsNo?: number;
+  listedIn?: string;
+  yearlyTaxRate?: number;
+  city?: string;
+  state?: string;
+  zipCode?: string;
+  country?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -32,7 +50,7 @@ const PropertySchema = new Schema<IProperty>(
     location: { type: String, required: true },
     propertyType: {
       type: String,
-      enum: ["apartment", "house", "villa", "land", "commercial"],
+      enum: ["apartment", "condo", "house", "villa", "land", "commercial"],
       default: "apartment",
     },
     status: {
@@ -46,6 +64,18 @@ const PropertySchema = new Schema<IProperty>(
     bedrooms: { type: Number },
     bathrooms: { type: Number },
     area: { type: Number },
+    amenities: [{ type: String }],
+    yearBuilt: { type: Number },
+    kitchens: { type: Number },
+    garages: { type: Number },
+    garageSize: { type: Number },
+    floorsNo: { type: Number },
+    listedIn: { type: String },
+    yearlyTaxRate: { type: Number },
+    city: { type: String },
+    state: { type: String },
+    zipCode: { type: String },
+    country: { type: String },
   },
   { timestamps: true },
 );
