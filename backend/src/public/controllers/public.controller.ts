@@ -138,7 +138,7 @@ export class PublicController {
         listedIn: prop.listedIn,
         owner: prop.ownerId,
         videoUrl: PublicController.getFullUrl(prop.videoUrl || ""),
-        floorPlans: prop.floorPlans?.map((img) =>
+        floorPlans: prop.floorPlans?.map((img: string) =>
           PublicController.getFullUrl(img),
         ),
       };

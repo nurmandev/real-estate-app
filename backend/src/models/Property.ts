@@ -5,6 +5,7 @@ export interface IProperty extends Document {
   title: string;
   description: string;
   price: number;
+  address?: string;
   location: string;
   propertyType:
     | "apartment"
@@ -49,6 +50,7 @@ const PropertySchema = new Schema<IProperty>(
     title: { type: String, required: true, trim: true },
     description: { type: String, required: true },
     price: { type: Number, required: true },
+    address: { type: String, trim: true },
     location: { type: String, required: true },
     propertyType: {
       type: String,

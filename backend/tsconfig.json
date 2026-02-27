@@ -12,7 +12,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
-    }
+    },
+    "types": ["node", "express", "multer"]
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]

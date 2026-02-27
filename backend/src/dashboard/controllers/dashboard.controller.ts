@@ -113,7 +113,7 @@ export class DashboardController {
         .limit(5)
         .lean();
 
-      const messages = logs.map((log) => ({
+      const messages = (logs as any[]).map((log: any) => ({
         id: log._id,
         name: "System",
         date: new Date(log.timestamp).toLocaleDateString("en-US", {
