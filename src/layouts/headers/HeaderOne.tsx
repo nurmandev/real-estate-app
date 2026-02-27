@@ -2,7 +2,7 @@
 import NavMenu from "./Menu/NavMenu";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import UseSticky from "@/hooks/UseSticky";
 import LoginModal from "@/modals/LoginModal";
 
@@ -14,6 +14,11 @@ import logo_1 from "@/assets/images/logo/logo_omnis.png";
 const HeaderOne = ({ style }: any) => {
   const { sticky } = UseSticky();
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <>
@@ -41,7 +46,7 @@ const HeaderOne = ({ style }: any) => {
               </div>
               <div className="right-widget ms-auto ms-lg-0 me-3 me-lg-0 order-lg-3">
                 <ul className="d-flex align-items-center style-none">
-                  {!isAuthenticated && (
+                  {mounted && !isAuthenticated && (
                     <li>
                       <Link
                         href="#"
@@ -54,7 +59,7 @@ const HeaderOne = ({ style }: any) => {
                       </Link>
                     </li>
                   )}
-                  {isAuthenticated && (
+                  {mounted && isAuthenticated && (
                     <li className="d-none d-md-inline-block ms-3">
                       <Link href="/dashboard/add-property" className="btn-two">
                         <span>Add Listing</span>{" "}

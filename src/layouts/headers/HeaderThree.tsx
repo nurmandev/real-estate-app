@@ -2,7 +2,7 @@
 import NavMenu from "./Menu/NavMenu";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import UseSticky from "@/hooks/UseSticky";
 import LoginModal from "@/modals/LoginModal";
 import Offcanvas from "./Menu/Offcanvas";
@@ -15,6 +15,11 @@ const HeaderThree = () => {
   const { sticky } = UseSticky();
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
   const [offCanvas, setOffCanvas] = useState<boolean>(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <>
@@ -32,7 +37,7 @@ const HeaderThree = () => {
 
               <div className="right-widget ms-auto me-3 me-lg-0 order-lg-4">
                 <ul className="d-flex align-items-center style-none">
-                  {!isAuthenticated && (
+                  {mounted && !isAuthenticated && (
                     <li className="d-flex align-items-center login-btn-one">
                       <i className="fa-regular fa-lock"></i>
                       <Link
@@ -48,7 +53,7 @@ const HeaderThree = () => {
                       </Link>
                     </li>
                   )}
-                  {isAuthenticated && (
+                  {mounted && isAuthenticated && (
                     <li className="d-none d-md-inline-block ms-3 ms-xl-4 me-xl-4">
                       <Link
                         href="/dashboard/add-property"

@@ -2,7 +2,7 @@
 import NavMenu from "./Menu/NavMenu";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import UseSticky from "@/hooks/UseSticky";
 import LoginModal from "@/modals/LoginModal";
 import Offcanvas from "./Menu/Offcanvas";
@@ -19,6 +19,11 @@ const HeaderTwo = ({ style_1, style_2 }: any) => {
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
   const [offCanvas, setOffCanvas] = useState<boolean>(false);
   const [isSearch, setIsSearch] = useState<boolean>(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <>
@@ -41,7 +46,7 @@ const HeaderTwo = ({ style_1, style_2 }: any) => {
                 <ul className="d-flex align-items-center style-none">
                   {!style_2 ? (
                     <>
-                      {!isAuthenticated && (
+                      {mounted && !isAuthenticated && (
                         <li className="d-flex align-items-center login-btn-one">
                           <i className="fa-regular fa-lock"></i>
                           <Link
@@ -58,7 +63,7 @@ const HeaderTwo = ({ style_1, style_2 }: any) => {
                           </Link>
                         </li>
                       )}
-                      {isAuthenticated && (
+                      {mounted && isAuthenticated && (
                         <li className="d-none d-md-inline-block ms-3 ms-xl-4 me-xl-4">
                           <Link
                             href="/dashboard/add-property"
@@ -90,7 +95,7 @@ const HeaderTwo = ({ style_1, style_2 }: any) => {
                           +210-0000-0000
                         </Link>
                       </li>
-                      {!isAuthenticated && (
+                      {mounted && !isAuthenticated && (
                         <li>
                           <Link
                             href="#"
