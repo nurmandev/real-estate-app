@@ -41,12 +41,8 @@ class PublicController {
             // Map to frontend expected format
             const formattedProperties = properties.map((prop) => ({
                 id: prop._id,
-                tag: prop.status === "active" ? "FOR SELL" : prop.status.toUpperCase(),
-                tag_bg: prop.status === "active"
-                    ? "sale"
-                    : prop.status === "rented"
-                        ? "rent"
-                        : "pending",
+                tag: prop.listedIn === "rent" ? "FOR RENT" : "FOR SELL",
+                tag_bg: prop.listedIn === "rent" ? "rent" : "sale",
                 carousel: prop._id.toString().substring(0, 5),
                 carousel_thumb: prop.images && prop.images.length > 0
                     ? prop.images.map((img, i) => ({
@@ -65,6 +61,7 @@ class PublicController {
                 price_text: prop.status === "rented" ? "m" : "",
                 data_delay_time: "0.1s",
                 status: prop.status,
+                listedIn: prop.listedIn,
                 location: prop.location,
                 city: prop.city,
                 state: prop.state,

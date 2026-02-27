@@ -18,9 +18,22 @@ connectDB();
 
 // Middleware
 app.use(helmet());
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  "http://localhost:3000",
+  "http://127.0.0.1:3000",
+  "https://omnis-real-estate.vercel.app", // Add a production URL just in case
+].map((url) => url?.replace(/\/$/, "")); // remove trailing slashes
+
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL,
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   }),
 );

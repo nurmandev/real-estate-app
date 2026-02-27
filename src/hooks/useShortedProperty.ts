@@ -62,12 +62,7 @@ const UseShortedProperty = ({ itemsPerPage, page }: DataType) => {
 
   const handleStatusChange = (event: ChangeEvent<HTMLSelectElement> | any) => {
     const val = event.target ? event.target.value : event;
-    // Map "Buy"/"Sell" -> "active", "Rent" -> "rented"
-    let mappedStatus = val;
-    if (val.toLowerCase() === "buy" || val.toLowerCase() === "sell")
-      mappedStatus = "active";
-    if (val.toLowerCase() === "rent") mappedStatus = "rented";
-
+    const mappedStatus = val.toLowerCase();
     setStatus(mappedStatus);
     setItemOffset(0);
   };
@@ -136,10 +131,21 @@ const UseShortedProperty = ({ itemsPerPage, page }: DataType) => {
     }
 
     if (status) {
-      filtered = filtered.filter(
-        (item) =>
-          item.status && item.status.toLowerCase() === status.toLowerCase(),
-      );
+      filtered = filtered.filter((item) => {
+        if (!item.listedIn) return false;
+        const listedIn = item.listedIn.toLowerCase();
+        const searchStatus = status.toLowerCase();
+
+        if (searchStatus === "buy" || searchStatus === "sell") {
+          return (
+            listedIn === "buy" || listedIn === "sell" || listedIn === "all"
+          );
+        } else if (searchStatus === "rent") {
+          return listedIn === "rent" || listedIn === "all";
+        }
+
+        return listedIn === searchStatus;
+      });
     }
 
     if (propertyType) {
