@@ -28,6 +28,7 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use("/public", express.static("public"));
 
 // Routes
 app.use("/api/auth", authRoutes);

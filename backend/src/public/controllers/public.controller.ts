@@ -132,7 +132,10 @@ export class PublicController {
         garageSize: prop.garageSize,
         floorsNo: prop.floorsNo,
         city: prop.city,
+        state: prop.state,
+        country: prop.country,
         zipCode: prop.zipCode,
+        listedIn: prop.listedIn,
         owner: prop.ownerId,
         videoUrl: PublicController.getFullUrl(prop.videoUrl || ""),
         floorPlans: prop.floorPlans?.map((img) =>

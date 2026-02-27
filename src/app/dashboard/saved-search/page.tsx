@@ -1,15 +1,19 @@
 import DashboardSavedSearch from "@/components/dashboard/saved-search";
+import AuthGuard from "@/components/auth/AuthGuard";
 import Wrapper from "@/layouts/Wrapper";
 
 export const metadata = {
-   title: "Dashboard Saved Search OMNIS - Real Estate React Next js",
+  title: "Saved Searches - OMNIS Real Estate",
 };
-const index = () => {
-   return (
-      <Wrapper>
-         <DashboardSavedSearch />
-      </Wrapper>
-   )
-}
 
-export default index
+const SavedSearchPage = () => {
+  return (
+    <Wrapper>
+      <AuthGuard>
+        <DashboardSavedSearch />
+      </AuthGuard>
+    </Wrapper>
+  );
+};
+
+export default SavedSearchPage;

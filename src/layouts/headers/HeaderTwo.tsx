@@ -10,9 +10,9 @@ import HeaderSearchbar from "./Menu/HeaderSearchbar";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 
-import logo_1 from "@/assets/images/logo/logo_02.svg";
-import logo_2 from "@/assets/images/logo/logo_04.svg";
-import logo_3 from "@/assets/images/logo/logo_06.svg";
+import logo_1 from "@/assets/images/logo/logo_omnis.png";
+import logo_2 from "@/assets/images/logo/logo_omnis.png";
+import logo_3 from "@/assets/images/logo/logo_omnis.png";
 
 const HeaderTwo = ({ style_1, style_2 }: any) => {
   const { sticky } = UseSticky();

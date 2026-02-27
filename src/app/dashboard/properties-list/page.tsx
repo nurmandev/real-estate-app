@@ -1,15 +1,19 @@
 import PropertyList from "@/components/dashboard/properties-list";
+import AuthGuard from "@/components/auth/AuthGuard";
 import Wrapper from "@/layouts/Wrapper";
 
 export const metadata = {
-   title: "Dashboard Property List OMNIS - Real Estate React Next js",
+  title: "My Properties - OMNIS Real Estate",
 };
-const index = () => {
-   return (
-      <Wrapper>
-         <PropertyList />
-      </Wrapper>
-   )
-}
 
-export default index
+const PropertyListPage = () => {
+  return (
+    <Wrapper>
+      <AuthGuard>
+        <PropertyList />
+      </AuthGuard>
+    </Wrapper>
+  );
+};
+
+export default PropertyListPage;

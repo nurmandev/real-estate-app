@@ -61,20 +61,20 @@ const PropertyOne = ({ style_1, style_2 }: any) => {
                         {item.propertyType || item.status}
                       </div>
                       <div
-                        id={`carousel${item._id || item.id}`}
+                        id={`carousel${item.carousel}`}
                         className="carousel slide"
                       >
                         <div className="carousel-indicators">
-                          {(item.images?.length > 0
-                            ? item.images
-                            : ["/assets/images/placeholder.png"]
+                          {(item.carousel_thumb?.length > 0
+                            ? item.carousel_thumb
+                            : [{ img: "/assets/images/placeholder.png" }]
                           )
                             .slice(0, 3)
                             .map((_: any, i: number) => (
                               <button
                                 key={i}
                                 type="button"
-                                data-bs-target={`#carousel${item._id || item.id}`}
+                                data-bs-target={`#carousel${item.carousel}`}
                                 data-bs-slide-to={i}
                                 className={i === 0 ? "active" : ""}
                                 aria-current={i === 0 ? "true" : "false"}
@@ -83,31 +83,29 @@ const PropertyOne = ({ style_1, style_2 }: any) => {
                             ))}
                         </div>
                         <div className="carousel-inner">
-                          {(item.images?.length > 0
-                            ? item.images
-                            : ["/assets/images/placeholder.png"]
+                          {(item.carousel_thumb?.length > 0
+                            ? item.carousel_thumb
+                            : [{ img: "/assets/images/placeholder.png" }]
                           )
                             .slice(0, 3)
-                            .map((imgUrl: string, i: number) => (
+                            .map((thumb: any, i: number) => (
                               <div
                                 key={i}
                                 className={`carousel-item ${i === 0 ? "active" : ""}`}
                                 data-bs-interval="1000000"
                               >
                                 <Link
-                                  href={`/listing_details?id=${item._id || item.id}`}
+                                  href={`/listing_details?id=${item.id}`}
                                   className="d-block"
                                 >
-                                  <Image
-                                    src={imgUrl}
+                                  <img
+                                    src={thumb.img}
                                     className="w-100"
-                                    width={400}
-                                    height={300}
                                     style={{
                                       objectFit: "cover",
                                       height: "280px",
                                     }}
-                                    alt="..."
+                                    alt={item.title}
                                   />
                                 </Link>
                               </div>
@@ -118,14 +116,12 @@ const PropertyOne = ({ style_1, style_2 }: any) => {
                   </div>
                   <div className="property-info pt-20">
                     <Link
-                      href={`/listing_details?id=${item._id || item.id}`}
+                      href={`/listing_details?id=${item.id}`}
                       className="title tran3s"
                     >
                       {item.title}
                     </Link>
-                    <div className="address">
-                      {item.location || item.address}
-                    </div>
+                    <div className="address">{item.address}</div>
                     <ul className="style-none feature d-flex flex-wrap align-items-center justify-content-between pb-15 pt-5">
                       <li className="d-flex align-items-center">
                         <Image
@@ -134,7 +130,7 @@ const PropertyOne = ({ style_1, style_2 }: any) => {
                           className="lazy-img icon me-2"
                         />
                         <span className="fs-16">
-                          {item.area ? item.area : 1200} sqft
+                          {item.property_info?.sqft || 0} sqft
                         </span>
                       </li>
                       <li className="d-flex align-items-center">
@@ -144,7 +140,7 @@ const PropertyOne = ({ style_1, style_2 }: any) => {
                           className="lazy-img icon me-2"
                         />
                         <span className="fs-16">
-                          {item.bedrooms ? item.bedrooms : 2} bed
+                          {item.property_info?.bed || 0} bed
                         </span>
                       </li>
                       <li className="d-flex align-items-center">
@@ -154,7 +150,7 @@ const PropertyOne = ({ style_1, style_2 }: any) => {
                           className="lazy-img icon me-2"
                         />
                         <span className="fs-16">
-                          {item.bathrooms ? item.bathrooms : 2} bath
+                          {item.property_info?.bath || 0} bath
                         </span>
                       </li>
                     </ul>
@@ -163,7 +159,7 @@ const PropertyOne = ({ style_1, style_2 }: any) => {
                         ${Number(item.price).toLocaleString()}
                       </strong>
                       <Link
-                        href={`/listing_details?id=${item._id || item.id}`}
+                        href={`/listing_details?id=${item.id}`}
                         className="btn-four"
                       >
                         <i className="bi bi-arrow-up-right"></i>

@@ -12,7 +12,7 @@ import FancyBanner from "@/components/common/FancyBanner";
 const AboutUsOne = () => {
   return (
     <>
-      <HeaderOne style={true} />
+      <H  eaderOne style={true} />
       <BreadcrumbOne title="About Agency" sub_title="About us" style={false} />
       <BLockFeatureOne />
       <VideoBanner />

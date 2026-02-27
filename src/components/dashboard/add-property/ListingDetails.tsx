@@ -51,7 +51,7 @@ const ListingDetails: React.FC<ListingDetailsProps> = ({
                 { value: 4, text: 4 },
                 { value: 5, text: 5 },
               ]}
-              defaultCurrent={parseInt(formData.bedrooms) || 0}
+              value={Number(formData.bedrooms) || 0}
               onChange={handleSelectChange("bedrooms")}
               name="bedrooms"
               placeholder=""
@@ -71,7 +71,7 @@ const ListingDetails: React.FC<ListingDetailsProps> = ({
                 { value: 4, text: 4 },
                 { value: 5, text: 5 },
               ]}
-              defaultCurrent={parseInt(formData.bathrooms) || 0}
+              value={Number(formData.bathrooms) || 0}
               onChange={handleSelectChange("bathrooms")}
               name="bathrooms"
               placeholder=""
@@ -91,7 +91,7 @@ const ListingDetails: React.FC<ListingDetailsProps> = ({
                 { value: 4, text: 4 },
                 { value: 5, text: 5 },
               ]}
-              defaultCurrent={parseInt(formData.kitchens) || 0}
+              value={Number(formData.kitchens) || 0}
               onChange={handleSelectChange("kitchens")}
               name="kitchens"
               placeholder=""
@@ -110,7 +110,7 @@ const ListingDetails: React.FC<ListingDetailsProps> = ({
                 { value: 3, text: 3 },
                 { value: 4, text: 4 },
               ]}
-              defaultCurrent={parseInt(formData.garages) || 0}
+              value={Number(formData.garages) || 0}
               onChange={handleSelectChange("garages")}
               name="garages"
               placeholder=""
@@ -155,7 +155,7 @@ const ListingDetails: React.FC<ListingDetailsProps> = ({
                 { value: 3, text: 3 },
                 { value: 4, text: 4 },
               ]}
-              defaultCurrent={parseInt(formData.floorsNo) || 0}
+              value={Number(formData.floorsNo) || 0}
               onChange={handleSelectChange("floorsNo")}
               name="floorsNo"
               placeholder=""

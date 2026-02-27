@@ -9,7 +9,7 @@ import Offcanvas from "./Menu/Offcanvas";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 
-import logo_1 from "@/assets/images/logo/logo_06.svg";
+import logo_1 from "@/assets/images/logo/logo_omnis.png";
 
 const HeaderThree = () => {
   const { sticky } = UseSticky();

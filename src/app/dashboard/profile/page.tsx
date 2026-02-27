@@ -1,15 +1,19 @@
 import DashboardProfile from "@/components/dashboard/profile";
+import AuthGuard from "@/components/auth/AuthGuard";
 import Wrapper from "@/layouts/Wrapper";
 
 export const metadata = {
-   title: "Dashboard Profile OMNIS - Real Estate React Next js",
+  title: "Profile - OMNIS Real Estate",
 };
-const index = () => {
-   return (
-      <Wrapper>
-         <DashboardProfile />
-      </Wrapper>
-   )
-}
 
-export default index
+const ProfilePage = () => {
+  return (
+    <Wrapper>
+      <AuthGuard>
+        <DashboardProfile />
+      </AuthGuard>
+    </Wrapper>
+  );
+};
+
+export default ProfilePage;

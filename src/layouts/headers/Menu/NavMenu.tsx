@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 
-import logo from "@/assets/images/logo/logo_01.svg";
+import logo from "@/assets/images/logo/logo_omnis.png";
 
 const NavMenu = () => {
   const pathname = usePathname();

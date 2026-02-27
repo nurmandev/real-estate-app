@@ -9,7 +9,7 @@ import LoginModal from "@/modals/LoginModal";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 
-import logo_1 from "@/assets/images/logo/logo_01.svg";
+import logo_1 from "@/assets/images/logo/logo_omnis.png";
 
 const HeaderOne = ({ style }: any) => {
   const { sticky } = UseSticky();

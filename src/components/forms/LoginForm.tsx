@@ -97,16 +97,22 @@ const LoginForm = () => {
       toast.success("Logged in successfully!", { position: "top-center" });
       reset();
 
-      // Clean up Bootstrap modal if present
+      // Programmatically close the modal using Bootstrap's data-bs-dismiss
       if (typeof window !== "undefined") {
-        document.body.classList.remove("modal-open");
-        const backdrop = document.querySelector(".modal-backdrop");
-        if (backdrop) backdrop.remove();
-        document.body.style.overflow = "";
-        document.body.style.paddingRight = "";
+        const closeBtn = document.getElementById("login-modal-close-btn");
+        if (closeBtn) {
+          closeBtn.click();
+        } else {
+          // Fallback if button not found
+          document.body.classList.remove("modal-open");
+          const backdrop = document.querySelector(".modal-backdrop");
+          if (backdrop) backdrop.remove();
+          document.body.style.overflow = "";
+          document.body.style.paddingRight = "";
+        }
       }
 
-      router.push("/dashboard/dashboard-index");
+      router.push("/dashboard");
     } catch (err: any) {
       const msg = err?.response?.data?.message || "Invalid email or password.";
       toast.error(msg, { position: "top-center" });
@@ -134,16 +140,22 @@ const LoginForm = () => {
       toast.success("Logged in successfully!", { position: "top-center" });
       reset();
 
-      // Clean up Bootstrap modal if present
+      // Programmatically close the modal using Bootstrap's data-bs-dismiss
       if (typeof window !== "undefined") {
-        document.body.classList.remove("modal-open");
-        const backdrop = document.querySelector(".modal-backdrop");
-        if (backdrop) backdrop.remove();
-        document.body.style.overflow = "";
-        document.body.style.paddingRight = "";
+        const closeBtn = document.getElementById("login-modal-close-btn");
+        if (closeBtn) {
+          closeBtn.click();
+        } else {
+          // Fallback if button not found
+          document.body.classList.remove("modal-open");
+          const backdrop = document.querySelector(".modal-backdrop");
+          if (backdrop) backdrop.remove();
+          document.body.style.overflow = "";
+          document.body.style.paddingRight = "";
+        }
       }
 
-      router.push("/dashboard/dashboard-index");
+      router.push("/dashboard");
     } catch (err: any) {
       const msg = err?.response?.data?.message || "Invalid MFA code.";
       toast.error(msg, { position: "top-center" });

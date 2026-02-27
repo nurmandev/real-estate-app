@@ -18,8 +18,8 @@ const footer_data: DataType[] = [
     widget_title: "Links",
     footer_link: [
       { link: "/", link_title: "Home" },
-      { link: "/about_us_02", link_title: "About us" },
-      { link: "/blog_03", link_title: "Blog" },
+      { link: "/about_us", link_title: "About us" },
+      { link: "/blog", link_title: "Blog" },
     ],
   },
   {
@@ -55,8 +55,8 @@ const footer_data: DataType[] = [
     widget_title: "Links",
     footer_link: [
       { link: "/", link_title: "Home" },
-      { link: "/about_us_02", link_title: "About us" },
-      { link: "/blog_03", link_title: "Blog" },
+      { link: "/about_us", link_title: "About us" },
+      { link: "/blog", link_title: "Blog" },
     ],
   },
   {
@@ -92,8 +92,8 @@ const footer_data: DataType[] = [
     widget_title: "Links",
     footer_link: [
       { link: "/", link_title: "Home" },
-      { link: "/about_us_02", link_title: "About us" },
-      { link: "/blog_03", link_title: "Blog" },
+      { link: "/about_us", link_title: "About us" },
+      { link: "/blog", link_title: "Blog" },
     ],
   },
   {
@@ -131,8 +131,8 @@ const footer_data: DataType[] = [
     widget_title: "Links",
     footer_link: [
       { link: "/", link_title: "Home" },
-      { link: "/about_us_02", link_title: "About us" },
-      { link: "/blog_03", link_title: "Blog" },
+      { link: "/about_us", link_title: "About us" },
+      { link: "/blog", link_title: "Blog" },
     ],
   },
   {

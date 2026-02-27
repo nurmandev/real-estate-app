@@ -1,15 +1,19 @@
 import DashboardMessage from "@/components/dashboard/message";
+import AuthGuard from "@/components/auth/AuthGuard";
 import Wrapper from "@/layouts/Wrapper";
 
 export const metadata = {
-   title: "Dashboard Message OMNIS - Real Estate React Next js",
+  title: "Messages - OMNIS Real Estate",
 };
-const index = () => {
-   return (
-      <Wrapper>
-         <DashboardMessage />
-      </Wrapper>
-   )
-}
 
-export default index
+const MessagesPage = () => {
+  return (
+    <Wrapper>
+      <AuthGuard>
+        <DashboardMessage />
+      </AuthGuard>
+    </Wrapper>
+  );
+};
+
+export default MessagesPage;

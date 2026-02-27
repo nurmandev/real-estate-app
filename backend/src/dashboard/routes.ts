@@ -33,4 +33,18 @@ router.post(
   PropertyController.createProperty,
 );
 
+// PATCH /api/dashboard/properties/:id — update a property
+router.patch(
+  "/properties/:id",
+  upload.fields([
+    { name: "images", maxCount: 10 },
+    { name: "video", maxCount: 1 },
+    { name: "floorPlans", maxCount: 5 },
+  ]),
+  PropertyController.updateProperty,
+);
+
+// DELETE /api/dashboard/properties/:id — delete a property
+router.delete("/properties/:id", PropertyController.deleteProperty);
+
 export default router;

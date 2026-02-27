@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { api } from "@/utils/api";
 
-import offcanvasLogo from "@/assets/images/logo/logo_02.svg";
+import offcanvasLogo from "@/assets/images/logo/logo_omnis.png";
 
 const Offcanvas = ({ offCanvas, setOffCanvas }: any) => {
   const [properties, setProperties] = useState<any[]>([]);

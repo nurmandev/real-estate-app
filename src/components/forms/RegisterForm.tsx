@@ -90,17 +90,23 @@ const RegisterForm = () => {
           );
         }
 
-        // Clean up Bootstrap modal if present
+        // Programmatically close the modal using Bootstrap's data-bs-dismiss
         if (typeof window !== "undefined") {
-          document.body.classList.remove("modal-open");
-          const backdrop = document.querySelector(".modal-backdrop");
-          if (backdrop) backdrop.remove();
-          document.body.style.overflow = "";
-          document.body.style.paddingRight = "";
+          const closeBtn = document.getElementById("login-modal-close-btn");
+          if (closeBtn) {
+            closeBtn.click();
+          } else {
+            // Fallback if button not found
+            document.body.classList.remove("modal-open");
+            const backdrop = document.querySelector(".modal-backdrop");
+            if (backdrop) backdrop.remove();
+            document.body.style.overflow = "";
+            document.body.style.paddingRight = "";
+          }
         }
 
         reset();
-        router.push("/dashboard/dashboard-index");
+        router.push("/dashboard");
       }
     } catch (error: any) {
       const errorMessage =

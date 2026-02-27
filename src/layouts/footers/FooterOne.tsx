@@ -2,8 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import footer_data from "@/data/home-data/FooterData";
 
-import footerLogo_1 from "@/assets/images/logo/logo_01.svg";
-import footerLogo_2 from "@/assets/images/logo/logo_03.svg";
+import footerLogo_1 from "@/assets/images/logo/logo_omnis.png";
+import footerLogo_2 from "@/assets/images/logo/logo_omnis.png";
 import footerShape_1 from "@/assets/images/shape/shape_32.svg";
 import footerShape_2 from "@/assets/images/shape/shape_33.svg";
 

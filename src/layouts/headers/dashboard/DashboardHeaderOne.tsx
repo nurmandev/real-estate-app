@@ -7,7 +7,7 @@ import { AppDispatch } from "@/redux/store";
 import { logout } from "@/redux/features/authSlice";
 import { api } from "@/utils/api";
 
-import dashboardLogo from "@/assets/images/logo/logo_01.svg";
+import dashboardLogo from "@/assets/images/logo/logo_omnis.png";
 import dashboardIconActive_1 from "@/assets/images/dashboard/icon/icon_1_active.svg";
 import dashboardIcon_1 from "@/assets/images/dashboard/icon/icon_1.svg";
 import dashboardIconActive_2 from "@/assets/images/dashboard/icon/icon_2_active.svg";
@@ -49,7 +49,7 @@ const DashboardHeaderOne = ({ isActive, setIsActive }: any) => {
     <aside className={`dash-aside-navbar ${isActive ? "show" : ""}`}>
       <div className="position-relative">
         <div className="logo d-md-block d-flex align-items-center justify-content-between plr bottom-line pb-30">
-          <Link href="/dashboard-index">
+          <Link href="/dashboard">
             <Image src={dashboardLogo} alt="" />
           </Link>
           <button
@@ -63,12 +63,12 @@ const DashboardHeaderOne = ({ isActive, setIsActive }: any) => {
           <ul className="style-none">
             <li className="plr">
               <Link
-                href="/dashboard/dashboard-index"
-                className={`d-flex w-100 align-items-center ${pathname === "/dashboard/dashboard-index" ? "active" : ""}`}
+                href="/dashboard"
+                className={`d-flex w-100 align-items-center ${pathname === "/dashboard" ? "active" : ""}`}
               >
                 <Image
                   src={
-                    pathname === "/dashboard/dashboard-index"
+                    pathname === "/dashboard"
                       ? dashboardIconActive_1
                       : dashboardIcon_1
                   }
@@ -183,18 +183,18 @@ const DashboardHeaderOne = ({ isActive, setIsActive }: any) => {
             </li>
             <li className="plr">
               <Link
-                href="/dashboard/review"
-                className={`d-flex w-100 align-items-center ${pathname === "/dashboard/review" ? "active" : ""}`}
+                href="/kyc-onboarding"
+                className={`d-flex w-100 align-items-center ${pathname === "/kyc-onboarding" ? "active" : ""}`}
               >
                 <Image
                   src={
-                    pathname === "/dashboard/review"
+                    pathname === "/kyc-onboarding"
                       ? dashboardIconActive_10
                       : dashboardIcon_10
                   }
                   alt=""
                 />
-                <span>Reviews</span>
+                <span>KYC Verification</span>
               </Link>
             </li>
           </ul>

@@ -1,15 +1,19 @@
 import DashboardAddProperty from "@/components/dashboard/add-property";
+import AuthGuard from "@/components/auth/AuthGuard";
 import Wrapper from "@/layouts/Wrapper";
 
 export const metadata = {
-   title: "Dashboard Add Property OMNIS - Real Estate React Next js",
+  title: "Add Property - OMNIS Real Estate",
 };
-const index = () => {
-   return (
-      <Wrapper>
-         <DashboardAddProperty />
-      </Wrapper>
-   )
-}
 
-export default index
+const AddPropertyPage = () => {
+  return (
+    <Wrapper>
+      <AuthGuard>
+        <DashboardAddProperty />
+      </AuthGuard>
+    </Wrapper>
+  );
+};
+
+export default AddPropertyPage;

@@ -50,7 +50,7 @@ const PropertyOne = () => {
                 <div
                   className="listing-card-six w-100 position-relative z-1 wow fadeInUp"
                   style={{
-                    backgroundImage: `url(${item1.images?.[0] || "/assets/images/listing/img_25.jpg"})`,
+                    backgroundImage: `url(${item1.carousel_thumb?.[0]?.img || "/assets/images/listing/img_25.jpg"})`,
                   }}
                 >
                   <div className="w-100 h-100 d-flex flex-column">
@@ -59,7 +59,7 @@ const PropertyOne = () => {
                     </div>
                     <h4>{item1.title || "Luxury Estate Overview"}</h4>
                     <Link
-                      href={`/listing_details?id=${item1._id || item1.id}`}
+                      href={`/listing_details?id=${item1.id}`}
                       className="btn-four inverse rounded-circle"
                     >
                       <i className="bi bi-arrow-up-right"></i>
@@ -77,7 +77,7 @@ const PropertyOne = () => {
                       <div
                         className="listing-card-five w-100 position-relative z-1 md-mt-40 wow fadeInUp"
                         style={{
-                          backgroundImage: `url(${item2.images?.[0] || "/assets/images/listing/img_23.jpg"})`,
+                          backgroundImage: `url(${item2.carousel_thumb?.[0]?.img || "/assets/images/listing/img_23.jpg"})`,
                         }}
                       >
                         <div className="w-100 h-100 d-flex flex-column">
@@ -86,7 +86,7 @@ const PropertyOne = () => {
                           </div>
                           <h4>{item2.title || "Sky Duplex Villa."}</h4>
                           <Link
-                            href={`/listing_details?id=${item2._id || item2.id}`}
+                            href={`/listing_details?id=${item2.id}`}
                             className="btn-four rounded-circle"
                           >
                             <i className="bi bi-arrow-up-right"></i>
@@ -100,7 +100,7 @@ const PropertyOne = () => {
                       <div
                         className="listing-card-five w-100 position-relative z-1 mt-40 wow fadeInUp"
                         style={{
-                          backgroundImage: `url(${item3.images?.[0] || "/assets/images/listing/img_24.jpg"})`,
+                          backgroundImage: `url(${item3.carousel_thumb?.[0]?.img || "/assets/images/listing/img_24.jpg"})`,
                         }}
                       >
                         <div className="w-100 h-100 d-flex flex-column">
@@ -109,7 +109,7 @@ const PropertyOne = () => {
                           </div>
                           <h4>{item3.title || "Galaxy Touch House."}</h4>
                           <Link
-                            href={`/listing_details?id=${item3._id || item3.id}`}
+                            href={`/listing_details?id=${item3.id}`}
                             className="btn-four rounded-circle"
                           >
                             <i className="bi bi-arrow-up-right"></i>

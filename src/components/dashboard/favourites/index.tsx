@@ -1,11 +1,13 @@
-import FavouriteBody from './FavouriteBody';
+import DashboardHeaderOne from "@/layouts/headers/dashboard/DashboardHeaderOne";
+import FavouriteBody from "./FavouriteBody";
 
 const DashboardFavourite = () => {
-   return (
-      <>
-         <FavouriteBody />
-      </>
-   )
-}
+  return (
+    <>
+      <DashboardHeaderOne />
+      <FavouriteBody />
+    </>
+  );
+};
 
 export default DashboardFavourite;

@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import footerLogo_1 from "@/assets/images/logo/logo_05.svg";
+import footerLogo_1 from "@/assets/images/logo/logo_omnis.png";
 import footerShape_1 from "@/assets/images/shape/shape_46.svg";
 import footerShape_2 from "@/assets/images/shape/shape_47.svg";
 import footerIcon_1 from "@/assets/images/icon/icon_30.svg";
@@ -74,8 +74,13 @@ const FooterTwo = () => {
                     <Link href={`tel:${number}`}>{number}</Link>
                   </li>
                   <li className="d-flex align-items-center mt-2">
-                    <i className="bi bi-globe me-2" style={{ fontSize: '18px' }}></i>
-                    <Link href="https://omnisproperties.com">omnisproperties.com</Link>
+                    <i
+                      className="bi bi-globe me-2"
+                      style={{ fontSize: "18px" }}
+                    ></i>
+                    <Link href="https://omnisproperties.com">
+                      omnisproperties.com
+                    </Link>
                   </li>
                 </ul>
 

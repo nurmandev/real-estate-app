@@ -59,7 +59,7 @@ const Overview: React.FC<OverviewProps> = ({ formData, setFormData }) => {
                 { value: "commercial", text: "Commercial" },
                 { value: "villa", text: "Villas" },
               ]}
-              defaultCurrent={0}
+              value={formData.propertyType}
               onChange={handleCategoryChange}
               name="propertyType"
               placeholder=""
@@ -77,7 +77,7 @@ const Overview: React.FC<OverviewProps> = ({ formData, setFormData }) => {
                 { value: "sell", text: "Sell" },
                 { value: "rent", text: "Rent" },
               ]}
-              defaultCurrent={0}
+              value={formData.listedIn}
               onChange={handleListedInChange}
               name="listedIn"
               placeholder=""
